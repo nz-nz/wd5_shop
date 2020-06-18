@@ -1,25 +1,23 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+// import './App.css';
+import Header from './components/header';
+import Ad_bottom from './components/ad_bottom';
+import Footer from './components/footer';
+import ScrollUp from './components/scroll_up';
 
-function App() {
+function App(props) {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <>
+          <div className="main-content-wrapper d-flex clearfix">
+              <Header/>
+              {
+                 props.children
+              }
+          </div>
+          <Ad_bottom/>
+          <Footer/>
+          <ScrollUp/>
+      </>
   );
 }
 
