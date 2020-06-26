@@ -14,6 +14,12 @@ const initialState = {
         // color: {}, // по цвету
         // price: {}, // по цене
     },
+    viewOnPageDropDown: {
+        itemsOnPageIndex: 0,
+        viewOnPageList: [12, 24, 48, 96],
+    },
+    // itemsOnPageIndex: 0,
+    // viewOnPageList: [12, 24, 48, 96],
     isLoading: {}, // объект, характеризующий состояние загрузки данных с бэка, внутри будут ключи для каждого из урлов АПИ
 };
 
@@ -67,6 +73,10 @@ function rootReducer(store = initialState, action) {
                 ...store,
                 isLoading: { ...store.isLoading, ...action.payload }
             };
+        case ACT.UPDATE_ITEMS_ON_PAGE_INDEX:
+            return {
+                ...store, viewOnPageDropDown:  { ...store.viewOnPageDropDown, itemsOnPageIndex: action.payload, },
+            }
     }
     return store;
 }

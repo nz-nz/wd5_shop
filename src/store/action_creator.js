@@ -143,3 +143,10 @@ export function clearAllFiltersAct() {
         type: ACT.CLEAR_ALL_FILTERS,
     }
 }
+
+export function updateItemsOnPageAct(payload) {
+    return {
+        type: ACT.UPDATE_ITEMS_ON_PAGE_INDEX,
+        payload,
+    }
+}

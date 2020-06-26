@@ -12,13 +12,14 @@ class Index extends React.Component {
         this.props.loadCatalog();
     }
 
-
     render() {
 
         const renderCard = () => {
             const {
                 goods,
                 filters,
+                itemsOnPageIndex,
+                viewOnPageList,
             } = this.props;
 
             if (this.props.goods.length === 0) {
@@ -43,8 +44,9 @@ class Index extends React.Component {
                 arr = arr.filter(item => (item.price >= filters.price[0] && item.price <= filters.price[1]));
             }
 
-            console.log(arr)
-            return  arr.map((item, index)=>{
+            console.log(arr);
+            console.log(viewOnPageList[itemsOnPageIndex]);
+            return  arr.slice(0, viewOnPageList[itemsOnPageIndex]).map((item)=>{
                 const {
                     id,
                     title,
@@ -99,6 +101,8 @@ const mapStateToProps = (store) => {
     return {
         goods: store.app.goods,
         filters: store.app.filters,
+        itemsOnPageIndex: store.app.viewOnPageDropDown.itemsOnPageIndex,
+        viewOnPageList: store.app.viewOnPageDropDown.viewOnPageList,
     }
 }
 
