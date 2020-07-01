@@ -1,9 +1,10 @@
 import React from 'react';
 
 function Index(props) {
+
     return (
         <p>
-            { props.children }
+            { `SHOWING ${ props.start }-${ props.end } OF ${ props.totalQty }` }
         </p>
     );
 }

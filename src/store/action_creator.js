@@ -150,3 +150,31 @@ export function updateItemsOnPageAct(payload) {
         payload,
     }
 }
+
+export function updateItemsOnPageIndexAct(payload) {
+    return {
+        type: ACT.UPDATE_SORT_BY_INDEX,
+        payload,
+    }
+}
+export function updateTotalGoodsQtyAct(payload) {
+    return {
+        type: ACT.UPDATE_TOTAL_GOODS_QTY,
+        payload,
+    }
+}
+
+export function updateStartItemOnPageZeroIndexAct(payload) {
+    return {
+        type: ACT.UPDATE_START_ITEM_ON_PAGE_ZERO_INDEX,
+        payload,
+    }
+}
+
+export function viewToggleAct(payload) {
+    return {
+        type: ACT.VIEW_TOGGLE,
+        payload,
+    }
+}
+

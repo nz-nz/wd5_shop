@@ -14,12 +14,22 @@ const initialState = {
         // color: {}, // по цвету
         // price: {}, // по цене
     },
+    sortByDropDown: {
+        sortByIndex: 0, // индекс для корректного отображения значения из массива sortByList
+        sortByList: ["Date", "Newest", "Popular"],
+        // activeSortBy: "", // "Date", "Newest", "Popular" - в зависимости от значения sortBy производится сортировка
+    },
     viewOnPageDropDown: {
-        itemsOnPageIndex: 0,
+        itemsOnPageIndex: 0, // индекс для корректного отображения значения из массива viewOnPageList
         viewOnPageList: [12, 24, 48, 96],
     },
-    // itemsOnPageIndex: 0,
-    // viewOnPageList: [12, 24, 48, 96],
+    viewToggle: {
+        isFullScreenItem: 0,
+    },
+    itemsOnPageInfo: {
+        itemQtyAfterFiltering: 0,
+        startItemOnPageZeroIndex: 0,
+    },
     isLoading: {}, // объект, характеризующий состояние загрузки данных с бэка, внутри будут ключи для каждого из урлов АПИ
 };
 
@@ -73,9 +83,30 @@ function rootReducer(store = initialState, action) {
                 ...store,
                 isLoading: { ...store.isLoading, ...action.payload }
             };
+        case ACT.UPDATE_SORT_BY_INDEX:
+            return {
+                ...store,
+                sortByDropDown:  { ...store.sortByDropDown, sortByIndex: action.payload, },
+            }
         case ACT.UPDATE_ITEMS_ON_PAGE_INDEX:
             return {
-                ...store, viewOnPageDropDown:  { ...store.viewOnPageDropDown, itemsOnPageIndex: action.payload, },
+                ...store,
+                viewOnPageDropDown:  { ...store.viewOnPageDropDown, itemsOnPageIndex: action.payload, },
+            }
+        case ACT.UPDATE_TOTAL_GOODS_QTY:
+            return {
+                ...store,
+                itemsOnPageInfo: { ...store.itemsOnPageInfo, itemQtyAfterFiltering: action.payload, }
+            }
+        case ACT.UPDATE_START_ITEM_ON_PAGE_ZERO_INDEX:
+            return {
+                ...store,
+                itemsOnPageInfo: { ...store.itemsOnPageInfo, startItemOnPageZeroIndex: action.payload, }
+            }
+        case ACT.VIEW_TOGGLE:
+            return {
+                ...store,
+                viewToggle: { ...store.viewToggle, isFullScreenItem: action.payload, }
             }
     }
     return store;

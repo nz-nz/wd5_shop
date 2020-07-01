@@ -12,10 +12,11 @@ function Index(props) {
         title = "",
         imgUrl1 = "http://test-api.ipromote.ru/img/Ikea-.png",
         imgUrl2 = product2,
+        isFullScreenItem,
     } = props;
 
     return (
-        <div className="col-12 col-sm-6 col-md-12 col-xl-6">
+        <div className={ !!isFullScreenItem ? "col-12 col-sm-12 col-md-12 col-xl-12" : "col-12 col-sm-6 col-md-12 col-xl-6" }>
             <div className="single-product-wrapper">
                 <div className="product-img">
                     <img src={ imgUrl1 } alt=""/>

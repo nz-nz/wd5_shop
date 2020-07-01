@@ -3,10 +3,12 @@ import { Link } from "react-router-dom";
 import { NAVI } from "../../../router/url";
 import {connect} from "react-redux";
 import * as ActionCreator from "../../../store/action_creator";
+import * as URL from '../../../router/url';
 
 class Index extends React.Component {
 
     render() {
+
         const renderLink = () => {
 
             return  NAVI.map((item)=>{

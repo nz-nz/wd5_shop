@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import DropDown from './../../../../../dropdown';
 import { useDispatch ,useSelector } from "react-redux";
-import { updateItemsOnPageAct} from '../../../../../../store/action_creator';
+import { updateItemsOnPageIndexAct, updateItemsOnPageAct, updateStartItemOnPageZeroIndexAct} from '../../../../../../store/action_creator';
 
-const sortByList = ["Date", "Newest", "Popular"];
+
 
 function Index() {
 
-    const [sortBy, setSortBy] = useState(0);
+    const sortBy = useSelector(store => store.app.sortByDropDown.sortByIndex);
+    const sortByList = useSelector(store => store.app.sortByDropDown.sortByList);
     const viewOnPage = useSelector(store => store.app.viewOnPageDropDown.itemsOnPageIndex);
     const viewOnPageList = useSelector(store => store.app.viewOnPageDropDown.viewOnPageList);
     const dispatcher = useDispatch();
@@ -15,10 +16,11 @@ function Index() {
     const handleChangeDropDown = (index, name) => {
         switch (name) {
             case "sortBy":
-                setSortBy(index);
+                dispatcher(updateItemsOnPageIndexAct(index));
                 break;
             case "View":
                 dispatcher(updateItemsOnPageAct(index));
+                dispatcher(updateStartItemOnPageZeroIndexAct(0));
                 break;
         }
     }

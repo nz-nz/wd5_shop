@@ -11,6 +11,8 @@ class Index extends React.Component {
     }
 
     render() {
+
+
         const renderItem =() => {
 
             if (this.props.categories.length === 0) {
