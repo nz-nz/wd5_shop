@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Logo from './logo';
 import MobileNav from './mobile_nav';
 import Nav from './nav';
@@ -7,10 +7,13 @@ import CartBlock from './cart_block';
 import Social from './social';
 
 function Index() {
+
+    const [isOpen, setIsOpen] = useState(false);
+
     return (
-        <header className="header-area clearfix">
+        <header className={ isOpen ? "header-area clearfix bp-xs-on" : "header-area clearfix"}>
             <Logo/>
-            <MobileNav/>
+            <MobileNav onClick={ () => setIsOpen(!isOpen) }/>
             <Nav/>
             <Buttons/>
             <CartBlock/>

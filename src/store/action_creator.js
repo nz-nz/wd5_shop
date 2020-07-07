@@ -68,6 +68,28 @@ export function loadPriceRanges() {
     }
 }
 
+export function loadProductImages(imageId) {
+
+    const requestUrl = `http://test-api.ipromote.ru/API/IMAGE/FIND?cid=${imageId}`;
+
+    return (dispatcher) => {
+        dispatcher(loadData(requestUrl, updateProductImagesAct, "productImages"));
+    }
+}
+
+export function updateProductImagesAct(payload) {
+    return {
+        type: ACT.UPDATE_PRODUCT_IMAGES,
+        payload,
+    }
+}
+
+export function clearProductImagesAct() {
+    return {
+        type: ACT.CLEAR_PRODUCT_IMAGES,
+    }
+}
+
 export function updateCatalogAct(payload) {
     return {
         type: ACT.UPDATE_CATALOG,
@@ -178,3 +200,16 @@ export function viewToggleAct(payload) {
     }
 }
 
+export function addItemToCartAct(payload) {
+    return {
+        type: ACT.ADD_ITEM_TO_CART,
+        payload,
+    }
+}
+
+export function updateCartAct(payload) {
+    return {
+        type: ACT.UPDATE_CART,
+        payload,
+    }
+}

@@ -1,12 +1,17 @@
 import React from 'react';
 
-function Index() {
+
+function Index(props) {
     return (
         <div className="product-meta-data">
             <div className="line"></div>
-            <p className="product-price">$180</p>
-            <a href="product-details.html">
-                <h6>White Modern Chair</h6>
+            <p className="product-price">
+                ${ props.price }
+            </p>
+            <a>
+                <h6>
+                    { props.title }
+                </h6>
             </a>
             <div className="ratings-review mb-15 d-flex align-items-center justify-content-between">
                 <div className="ratings">

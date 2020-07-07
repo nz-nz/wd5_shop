@@ -26,7 +26,7 @@ export const NAVI = [
         ]
     },
     {
-        url: `${ PRODUCT_DETAILS }/${ 77 }`,
+        url: `${ PRODUCT_DETAILS }/${ 1 }`,
         title: "PRODUCT",
         sortOrder: 3,
     },

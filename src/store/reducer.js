@@ -1,5 +1,6 @@
 import { combineReducers } from "redux";
 import { connectRouter } from "connected-react-router";
+import {reducer as toastrReducer} from 'react-redux-toastr';
 import * as ACT from './actions';
 
 const initialState = {
@@ -8,12 +9,27 @@ const initialState = {
     brands: {}, // все бренды
     colors: {}, // все доступные в каталоге цвета (основные)
     priceRanges: {}, // диапазон цен.
+    productImages: {},
     filters: {
         // category: {}, // фильтр по категории
         // brand: [], // фильтр по бренду
         // color: {}, // по цвету
         // price: {}, // по цене
     },
+    cart: localStorage.cart && JSON.parse(localStorage.cart).length !== 0 ? JSON.parse(localStorage.cart) : [],
+    // {
+    //     id: 102,
+    //     img: {
+    //         small: Image1,
+    //         large: "../assets/img/pro-big-3.jpg",
+    //     },
+    //     title: 'White Modern Chair',
+    //     price: 130,
+    //     cnt: 1,
+    //     max: 5,
+    //     updated_at: Date
+    //     created_at: Date
+    // },
     sortByDropDown: {
         sortByIndex: 0, // индекс для корректного отображения значения из массива sortByList
         sortByList: ["Date", "Newest", "Popular"],
@@ -51,17 +67,17 @@ function rootReducer(store = initialState, action) {
                 filters: { ...store.filters, ...action.payload }
             };
         case ACT.UPDATE_BRAND_FILTERS:
-            let arr = [];
+            let brandFiltersArr = [];
             if (store.filters.brand)
-                arr = [...store.filters.brand];
-            if(!arr.includes(action.payload)){
-                arr.push(action.payload);
+                brandFiltersArr = [...store.filters.brand];
+            if(!brandFiltersArr.includes(action.payload)){
+                brandFiltersArr.push(action.payload);
             } else {
-                arr = arr.filter(elem => elem != action.payload);
+                brandFiltersArr = brandFiltersArr.filter(elem => elem !== action.payload);
             }
             if (store.filters.brand){
-                if (Object.keys(arr).length == 0) {
-                    const obj = Object.fromEntries(Object.entries(store.filters).filter(([k,v])=>(k != "brand")));
+                if (Object.keys(brandFiltersArr).length === 0) {
+                    const obj = Object.fromEntries(Object.entries(store.filters).filter(([k,v])=>(k !== "brand")));
                     return {
                         ...store,
                         filters: { ...obj }
@@ -70,8 +86,12 @@ function rootReducer(store = initialState, action) {
             }
             return {
                 ...store,
-                filters: { ...store.filters, brand: arr }
+                filters: { ...store.filters, brand: brandFiltersArr }
             };
+        case ACT.UPDATE_PRODUCT_IMAGES:
+            return { ...store, productImages: action.payload };
+        case ACT.CLEAR_PRODUCT_IMAGES:
+            return { ...store, productImages: null };
         case ACT.CLEAR_ALL_FILTERS:
             console.log("clear all filters")
             return {
@@ -108,6 +128,67 @@ function rootReducer(store = initialState, action) {
                 ...store,
                 viewToggle: { ...store.viewToggle, isFullScreenItem: action.payload, }
             }
+        case ACT.ADD_ITEM_TO_CART:
+            let storeCartBuffer1 = [];
+            storeCartBuffer1 = store.cart;
+            const cartArr = [];
+            if (localStorage.cart && JSON.parse(localStorage.cart).length !== 0) {
+                storeCartBuffer1 = JSON.parse(localStorage.cart);
+                console.log("ADD_ITEM_TO_CART");
+                console.log(storeCartBuffer1);
+            }
+            if (Object.keys(storeCartBuffer1).length === 0) {
+                cartArr.push(Object.values(action.payload)[0]);
+                localStorage.setItem('cart', JSON.stringify(cartArr));
+                return {
+                    ...store,
+                    cart: cartArr,
+                }
+            }
+
+            cartArr = storeCartBuffer1.map(item => {
+                if (item.id === Object.values(action.payload)[0].id) {
+                    item.cnt += +Object.values(action.payload)[0].cnt;
+                    item.updated_at = Object.values(action.payload)[0].updated_at;
+                    item.updated_at_timestamp = Object.values(action.payload)[0].updated_at_timestamp;
+                }
+                return item;
+            });
+            if (!cartArr.find(item => item.id === Object.values(action.payload)[0].id))
+                cartArr.push(Object.values(action.payload)[0]);
+
+            localStorage.setItem('cart', JSON.stringify(cartArr));
+
+            return {
+                ...store,
+                cart: cartArr,
+            }
+        case ACT.UPDATE_CART:
+            let storeCartBuffer2 = [];
+            storeCartBuffer2 = store.cart;
+            let cartUpdateArr = [];
+            if (localStorage.cart && JSON.parse(localStorage.cart).length !== 0) {
+                storeCartBuffer2 = JSON.parse(localStorage.cart);
+                console.log("ADD_ITEM_TO_CART");
+                console.log(storeCartBuffer2);
+            }
+            storeCartBuffer2.forEach(item => {
+                if (item.id === Object.values(action.payload)[0].id) {
+                    item.cnt = +Object.values(action.payload)[0].cnt;
+                    item.updated_at = Object.values(action.payload)[0].updated_at;
+                    item.updated_at_timestamp = Object.values(action.payload)[0].updated_at_timestamp;
+                }
+                if (item.cnt !== 0) {
+                    cartUpdateArr.push(item);
+                }
+            });
+
+            localStorage.setItem('cart', JSON.stringify(cartUpdateArr));
+
+            return {
+                ...store,
+                cart: cartUpdateArr,
+            }
     }
     return store;
 }
@@ -115,4 +196,5 @@ function rootReducer(store = initialState, action) {
 export default (history) => combineReducers({
     router: connectRouter(history),
     app: rootReducer,
+    toastr: toastrReducer // <- Mounted at toastr.
 });

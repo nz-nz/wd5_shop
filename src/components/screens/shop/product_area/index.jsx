@@ -4,6 +4,7 @@ import ProductItem from './product_item';
 import Pagination from './pagination';
 import * as ActionCreator from "../../../../store/action_creator";
 import {connect} from "react-redux";
+import {toastr} from "react-redux-toastr";
 
 
 class Index extends React.Component {
@@ -13,6 +14,44 @@ class Index extends React.Component {
     }
 
     render() {
+
+        const handleClick = (itemId) => {
+
+            let targetItem;
+
+            if (Object.keys(this.props.goods).length !== 0) {
+                targetItem = this.props.goods.filter(item => item.id == itemId)[0];
+            }
+
+            const {
+                id,
+                img_url,
+                title,
+                price,
+                available,
+            } = targetItem || {};
+
+            const createdAt = new Date();
+            const createdAtTimestamp = createdAt.getTime();
+            this.props.addItemToCartAct({
+                [createdAtTimestamp]: {
+                    id: id,
+                    img: {
+                        small: '',
+                        large: img_url,
+                    },
+                    title: title,
+                    price: price,
+                    cnt: 1,
+                    max: available,
+                    created_at: createdAt,
+                    created_at_timestamp: createdAtTimestamp,
+                    updated_at: createdAt,
+                    updated_at_timestamp: createdAtTimestamp,
+                }
+            });
+            toastr.success('Товар добавлен!', title);
+        }
 
         const renderCard = () => {
             const {
@@ -86,6 +125,7 @@ class Index extends React.Component {
                         title = { title }
                         imgUrl1 = { `http://test-api.ipromote.ru/img/${ img_url }` }
                         isFullScreenItem = { this.props.isFullScreenItem }
+                        onClick = { () => handleClick(id) }
                     />
 
             })
@@ -141,6 +181,7 @@ const mapDispatchToProps = (dispatcher) => {
         // вызывает внутри себя в action_creator - updateCatalogAct: (payload) => dispatcher(ActionCreators.updateCatalogAct(payload)),
         loadCatalog: () => dispatcher(ActionCreator.loadCatalog()),
         updateTotalGoodsQty: (qty) => dispatcher(ActionCreator.updateTotalGoodsQtyAct(qty)),
+        addItemToCartAct: (payload) => dispatcher(ActionCreator.addItemToCartAct(payload)),
     }
 };
 

@@ -1,6 +1,6 @@
 import React from 'react';
-import product1 from '../../../../../assets/img/product-img/product1.jpg';
-import product2 from '../../../../../assets/img/product-img/product2.jpg';
+// import product1 from '../../../../../assets/img/product-img/product1.jpg';
+// import product2 from '../../../../../assets/img/product-img/product2.jpg';
 import cart from '../../../../../assets/img/core-img/cart.png';
 import * as URL from "../../../../../router/url";
 import {Link} from "react-router-dom";
@@ -11,8 +11,9 @@ function Index(props) {
         price = 0,
         title = "",
         imgUrl1 = "http://test-api.ipromote.ru/img/Ikea-.png",
-        imgUrl2 = product2,
+        // imgUrl2 = product2,
         isFullScreenItem,
+        onClick
     } = props;
 
     return (
@@ -20,7 +21,7 @@ function Index(props) {
             <div className="single-product-wrapper">
                 <div className="product-img">
                     <img src={ imgUrl1 } alt=""/>
-                        <img className="hover-img" src={ imgUrl2 } alt=""/>
+                    {/*{<img className="hover-img" src={imgUrl2} alt=""/>}*/}
                 </div>
 
                 <div className="product-description d-flex align-items-center justify-content-between">
@@ -39,10 +40,8 @@ function Index(props) {
                             <i className="fa fa-star" aria-hidden="true"></i>
                             <i className="fa fa-star" aria-hidden="true"></i>
                         </div>
-                        <div className="cart">
-                            <Link to={ `${ URL.PRODUCT_DETAILS }/${ id }` } data-toggle="tooltip" data-placement="left" title="" data-original-title="Add to Cart">
-                                <img src={ cart } alt=""/>
-                            </Link>
+                        <div className="cart" style={ { cursor: "pointer" } } onClick={ onClick }>
+                                <img src={ cart } alt="" />
                         </div>
                     </div>
                 </div>

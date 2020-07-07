@@ -1,13 +1,18 @@
 import React from 'react';
 import { Link } from "react-router-dom";
 import { NAVI } from "../../../router/url";
-import {connect} from "react-redux";
+import { connect } from "react-redux";
 import * as ActionCreator from "../../../store/action_creator";
-import * as URL from '../../../router/url';
 
 class Index extends React.Component {
 
+
     render() {
+
+        const handleClick = () => {
+            this.props.clearAllFiltersAct();
+            this.props.clearProductImagesAct();
+        }
 
         const renderLink = () => {
 
@@ -19,10 +24,11 @@ class Index extends React.Component {
                 } = item || {};
 
                 let shortRout = this.props?.location.split('/').slice(0,2).join('/');
-                // console.log(shortRout," ",url)
+                let shortUrl = url.split('/').slice(0,2).join('/');
+                console.log(shortRout," ",shortUrl)
 
                 return (
-                        <li className={ shortRout == url ? "active" : '' } key={ sortOrder } onClick={ this.props.clearAllFiltersAct }>
+                        <li className={ shortRout == shortUrl ? "active" : '' } key={ sortOrder } onClick={ handleClick }>
                             <Link to={ url }>{ title }</Link>
                         </li>
                 )
@@ -51,6 +57,7 @@ const mapStateToProps = (store) => {
 const mapDispatchToProps = (dispatcher) => {
     return {
         clearAllFiltersAct: () => dispatcher(ActionCreator.clearAllFiltersAct()),
+        clearProductImagesAct: () => dispatcher(ActionCreator.clearProductImagesAct()),
     }
 };
 

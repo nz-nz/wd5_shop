@@ -13,7 +13,8 @@ function Index() {
     const startItemOnPage = startItemOnPageZeroIndex + 1;
 
     const handleClick = (e, item) => {
-        dispatcher(ActionCreator.updateStartItemOnPageZeroIndexAct((item - 1) * viewOnPageList[itemsOnPageIndex]))
+        dispatcher(ActionCreator.updateStartItemOnPageZeroIndexAct((item - 1) * viewOnPageList[itemsOnPageIndex]));
+        window.scroll(0, 0);
     }
 
     function pagination(qty) {
