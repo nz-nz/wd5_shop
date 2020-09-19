@@ -77,7 +77,9 @@ function rootReducer(store = initialState, action) {
             }
             if (store.filters.brand){
                 if (Object.keys(brandFiltersArr).length === 0) {
-                    const obj = Object.fromEntries(Object.entries(store.filters).filter(([k,v])=>(k !== "brand")));
+                    const obj = Object.fromEntries(
+                        Object.entries(store.filters).filter(([k,v])=>(k !== "brand"))
+                    );
                     return {
                         ...store,
                         filters: { ...obj }

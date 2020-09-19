@@ -2,7 +2,6 @@ import React from 'react';
 import Item from './item';
 import * as ActionCreator from "../../../../../store/action_creator";
 import {connect} from "react-redux";
-import {string} from "prop-types";
 
 class Index extends React.Component {
 
