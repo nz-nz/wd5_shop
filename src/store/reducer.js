@@ -133,7 +133,7 @@ function rootReducer(store = initialState, action) {
         case ACT.ADD_ITEM_TO_CART:
             let storeCartBuffer1 = [];
             storeCartBuffer1 = store.cart;
-            const cartArr = [];
+            let cartArr = [];
             if (localStorage.cart && JSON.parse(localStorage.cart).length !== 0) {
                 storeCartBuffer1 = JSON.parse(localStorage.cart);
                 console.log("ADD_ITEM_TO_CART");
